@@ -18,6 +18,7 @@ urlpatterns = [
     path('minutos', views.minutos, name ='minutos'),
     path('grafica', views.grafica, name = 'grafica'),
     path('minutosTotales',views.minutosTotales,name='minutosTotales'),
+    path('minutosJugador',views.minutosJugador, name = 'minutosJugador'),
 ]
 urlpatterns += [
     path('accounts/', include('django.contrib.auth.urls')),

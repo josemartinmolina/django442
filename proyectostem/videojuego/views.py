@@ -73,7 +73,6 @@ def minutosTotales(request):
             port = "5432",
             database = "stem442"
         )
-
         #Create a cursor connection object to a PostgreSQL instance and print the connection properties.
         cursor = connection.cursor()
         #Display the PostgreSQL version installed
@@ -92,7 +91,7 @@ def minutosTotales(request):
         if(connection != None):
             cursor.close()
             connection.close()
-            print("PostgreSQL connection is now closed")
+            #print("PostgreSQL connection is now closed")
     
     return render(request, 'minutosTotales.html', {"minutosTotales":totales})
     
@@ -133,6 +132,13 @@ def minutos(request):
         min_jugados += m.minutos
     print(min_jugados)
     return render(request,'minutos.html',{'minutos':min_jugados})
+
+@login_required
+def minutosJugador(request):
+    usuario = request.user
+    registros = Minutos.objects.filter(jugador=usuario)
+    minutos = registros[0].minutos
+    return render(request,'minutosJugador.html',{'minutos':minutos} )
 
 
 class RetoViewSet(viewsets.ModelViewSet):

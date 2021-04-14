@@ -10,6 +10,7 @@ from django.db.models import Sum
 from rest_framework import viewsets
 from .serializers import RetoSerializer
 from random import randrange
+import psycopg2
 
 # Create your views here.
 def index(request):
@@ -59,6 +60,41 @@ def buscaJugadorBody(request):
             }
     #return HttpResponse(session, content_type = "text/json-comment-filtered")
     return JsonResponse(session)
+
+@csrf_exempt
+def minutosTotales(request):
+   
+    totales = 0
+    try:
+        connection = psycopg2.connect(
+            user = "stem_user",
+            password = "stemreto",
+            host = "localhost",
+            port = "5432",
+            database = "stem442"
+        )
+
+        #Create a cursor connection object to a PostgreSQL instance and print the connection properties.
+        cursor = connection.cursor()
+        #Display the PostgreSQL version installed
+        cursor.execute("SELECT * from videojuego_reto;")
+        rows = cursor.fetchall()
+        for row in rows:
+            totales += row[2]
+
+    #Handle the error throws by the command that is useful when using python while working with PostgreSQL
+    except(Exception, psycopg2.Error) as error:
+        print("Error connecting to PostgreSQL database", error)
+        connection = None
+
+    #Close the database connection
+    finally:
+        if(connection != None):
+            cursor.close()
+            connection.close()
+            print("PostgreSQL connection is now closed")
+    
+    return render(request, 'minutosTotales.html', {"minutosTotales":totales})
     
 @csrf_exempt
 def buscaJugadorFormulario(request):
@@ -68,6 +104,7 @@ def buscaJugadorFormulario(request):
     jugador_objeto = Reto.objects.filter(nombre=jugador_nombre)
     jugador_json = serializers.serialize('json',jugador_objeto)
     return HttpResponse(jugador_json, content_type = "text/json-comment-filtered")
+    """
     session= {
             "id":1,
             "userId":jugador_objeto[0].nombre,
@@ -77,6 +114,7 @@ def buscaJugadorFormulario(request):
             }
     #return HttpResponse(session, content_type = "text/json-comment-filtered")
     return JsonResponse(session)
+    """
 
 
 def ejemploJquery(request):

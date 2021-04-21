@@ -25,12 +25,19 @@ def barras(request):
     data = []
     data.append(['Jugador', 'Minutos Jugados'])
     resultados = Reto.objects.all() #select * from reto;
-    for registro in resultados:
-        nombre = registro.nombre
-        minutos = registro.minutos_jugados
-        data.append([nombre,minutos])
-    data_formato = dumps(data) #formatear los datos en string para JSON
-    return render(request,'barras.html',{'losDatos':data_formato})
+    titulo = 'Videojuego STEM'
+    titulo_formato = dumps(titulo)
+    subtitulo= 'Total de minutos por jugador'
+    subtitulo_formato = dumps(subtitulo)
+    if len(resultados)>0:
+        for registro in resultados:
+            nombre = registro.nombre
+            minutos = registro.minutos_jugados
+            data.append([nombre,minutos])
+        data_formato = dumps(data) #formatear los datos en string para JSON
+        return render(request,'barras.html',{'losDatos':data_formato,'titulo':titulo_formato,'subtitulo':subtitulo_formato})
+    else:
+        return HttpResponse("<h1> No hay registros a mostrar</h1>")
 # Create your views here.
 def index(request):
     #return HttpResponse('<h1> Hola desde Django </h1>')

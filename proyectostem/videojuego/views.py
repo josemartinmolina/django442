@@ -12,6 +12,16 @@ from .serializers import RetoSerializer
 from random import randrange
 import psycopg2
 
+def barras(request):
+    data = [
+          ['Year', 'Sales', 'Expenses', 'Profit'],
+          ['2014', 1000, 400, 200],
+          ['2015', 1170, 460, 250],
+          ['2016', 660, 1120, 300],
+          ['2017', 1030, 540, 350]
+        ]
+    data_formato = dumps(data) #formatear los datos en string para JSON
+    return render(request,'barras.html',{'losDatos':data_formato})
 # Create your views here.
 def index(request):
     #return HttpResponse('<h1> Hola desde Django </h1>')

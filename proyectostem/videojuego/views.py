@@ -35,7 +35,8 @@ def barras(request):
             minutos = registro.minutos_jugados
             data.append([nombre,minutos])
         data_formato = dumps(data) #formatear los datos en string para JSON
-        return render(request,'barras.html',{'losDatos':data_formato,'titulo':titulo_formato,'subtitulo':subtitulo_formato})
+        elJSON = {'losDatos':data_formato,'titulo':titulo_formato,'subtitulo':subtitulo_formato}
+        return render(request,'barras.html',elJSON)
     else:
         return HttpResponse("<h1> No hay registros a mostrar</h1>")
 # Create your views here.

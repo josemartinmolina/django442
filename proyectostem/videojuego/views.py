@@ -167,7 +167,6 @@ def minutosJugador(request):
     minutos = registros[0].minutos
     return render(request,'minutosJugador.html',{'minutos':minutos} )
 
-
 class RetoViewSet(viewsets.ModelViewSet):
     #queryset = Reto.objects.all().order_by('nombre')
     queryset = Reto.objects.all().order_by('id')

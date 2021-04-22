@@ -10,6 +10,7 @@ from django.db.models import Sum
 from rest_framework import viewsets
 from .serializers import RetoSerializer
 from random import randrange
+from django.shortcuts import get_object_or_404
 import psycopg2
 
 def barras(request):
@@ -221,7 +222,22 @@ def grafica(request):
         'h_title':h_var_JSON,'v_title':v_var_JSON})
 
 def llave(request):
-    usuarios= User.objects.filter(username="Juan")
+    usuarios= User.objects.filter(username="admin")
     u = usuarios[0]
-    m = Minutos.objects.create(jugador=u,minutos=200)
+    m = Minutos.objects.create(jugador=u,minutos=123)
+    return HttpResponse("OK")
+
+def actualiza(request):
+    #usuarios= Reto.objects.filter(nombre="Bruno").update(minutos_jugados = 987)
+    usuarios= Reto.objects.filter(nombre="Bruno").first()
+    usuarios.minutos_jugados = 783
+    usuarios.save()
+    #u = usuarios[0]
+    #u.minutos_jugados = 159
+    #u.save()
+    '''
+    usuario = get_object_or_404(Reto, nombre="Bruno")
+    usuario.minutos_jugados = 990
+    usuario.save()
+    '''
     return HttpResponse("OK")

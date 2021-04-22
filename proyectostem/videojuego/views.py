@@ -219,3 +219,9 @@ def grafica(request):
     # dictiory shown below so that they can be displayed on the home screen
     return render(request,"charts.html",{'values':modified_data,\
         'h_title':h_var_JSON,'v_title':v_var_JSON})
+
+def llave(request):
+    usuarios= User.objects.filter(username="Juan")
+    u = usuarios[0]
+    m = Minutos.objects.create(jugador=u,minutos=200)
+    return HttpResponse("OK")
